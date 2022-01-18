@@ -4,7 +4,7 @@ var countDown = 10;
 function setTime() {
     var timerInterval = setInterval(function() {
 countDown--;
-timeEl.textContent = "Countdown: " + secondsLeft;
+timeEl.textContent = "Countdown: " + countDown;
 
 if (countDown === 0) {
     clearInterval(timerInterval);
