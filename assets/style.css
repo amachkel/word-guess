@@ -10,7 +10,10 @@ body {
 
   color: #C44536;
 }
-
+p {
+  font-size: 24px;
+  font-style:bold;
+}
 .card {
   background-color: var(--card-bg-color);
   border: 1px solid var(--main-bg-color);
