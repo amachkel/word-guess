@@ -2,19 +2,23 @@ var timeEl = document.querySelector(".time");
 var countDown = 10;
 
 function setTime() {
-    var timerInterval = setInterval(function() {
-countDown--;
-timeEl.textContent = "Countdown: " + countDown;
+  var timerInterval = setInterval(function () {
+    countDown--;
+    timeEl.textContent = "Countdown: " + countDown;
 
-if (countDown === 0) {
-    clearInterval(timerInterval);
-    sendMessage();
-}
-    }, 1000);
+    if (countDown === 0) {
+      clearInterval(timerInterval);
+      sendMessage();
+    }
+  }, 1000);
 }
 
 function sendMessage() {
-    timeEl.textContent = "Game Over";
+  timeEl.textContent = "Game Over";
 }
 
-setTime();
+var startButton = document.querySelector("#start-button");
+
+startButton.addEventListener("click", function () {
+  setTime();
+});
