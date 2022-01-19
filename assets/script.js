@@ -1,10 +1,15 @@
 var timeEl = document.querySelector(".time");
 var countDown = 10;
+var wordArray = ["kitty", "doggo", "parrot", "gecko"];
+var randomWord = Math.floor(Math.random() * wordArray.length);
+var startButton = document.querySelector("#start-button");
 
-function setTime() {
+function newRound() {
   var timerInterval = setInterval(function () {
     countDown--;
     timeEl.textContent = "Countdown: " + countDown;
+
+    for (i = 0; i < randomWord; i++);
 
     if (countDown === 0) {
       clearInterval(timerInterval);
@@ -13,12 +18,25 @@ function setTime() {
   }, 1000);
 }
 
+document.getElementById("word").textContent = wordArray[randomWord];
+
+startButton.addEventListener("click", function () {
+  newRound();
+});
+
 function sendMessage() {
   timeEl.textContent = "Game Over";
 }
 
-var startButton = document.querySelector("#start-button");
+function keydownAction(event) {
+  var keyPress = event.key;
+  //need code block here
+  document.querySelector(".letter");
+}
 
-startButton.addEventListener("click", function () {
-  setTime();
-});
+//loop through the word
+//creat a span with class letter-holder
+//add an attribute "data-letter-val" and give it the value of the current letter in loop.
+//then attach the spans to your html
+
+//check whole array for each key event
