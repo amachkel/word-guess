@@ -3,7 +3,8 @@ var countDown = 10;
 var wordArray = ["kitty", "doggo", "parrot", "gecko"];
 var randomWord = Math.floor(Math.random() * wordArray.length);
 var startButton = document.querySelector("#start-button");
-
+//sets game's default to off;
+var startRound = "off";
 function newRound() {
   var timerInterval = setInterval(function () {
     countDown--;
@@ -11,7 +12,7 @@ function newRound() {
 
     for (i = 0; i < randomWord; i++);
 
-    if (countDown === 0) {
+    if (countDown === 0 || startRound === "off") {
       clearInterval(timerInterval);
       sendMessage();
     }
@@ -21,7 +22,13 @@ function newRound() {
 document.getElementById("word").textContent = wordArray[randomWord];
 
 startButton.addEventListener("click", function () {
-  newRound();
+  if (startRound === "off") {
+      startRound = "on";
+      newRound();
+  } else {
+      startRound = "off";
+  }
+  
 });
 
 function sendMessage() {
