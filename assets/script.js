@@ -1,3 +1,32 @@
+// const startBtnEl = document.querySelector("#start-button");
+
+// startBtnEl.addEventListener("click", startGame);
+// let timerCount;
+
+// function startGame() {
+//   timerCount = 10;
+
+//   startBtnEl.disabled = true;
+//   renderWordBlanks();
+//   countDown();
+// };
+
+// const wordArray = ["Kitty", "Doggo", "Lizard", "Parrot", "Fish"];
+// let chosenWord = "";
+// let chosenLetters = [];
+// let letterBlanks = [];
+// let wordBlank;
+
+// renderWordBlanks = () => {
+//   chosenWord = wordArray[Math.floor(Math.random() * wordArray.length)];
+//   chosenLetters = chosenWord.length;
+
+//   for (let i = 0; i < chosenLetters.length; i++) {
+//     letterBlanks.push("_");
+//   }
+//   wordBlank.textContent = letterBlanks.join(" ");
+// };
+
 var timeEl = document.querySelector(".time");
 var countDown = 10;
 var wordArray = ["kitty", "doggo", "parrot", "gecko"];
@@ -44,28 +73,33 @@ function getRandomWord() {
 }
 //letter paramater = any letter
 function createSpan(letter) {
-    //creates <span> tag
+  //creates <span> tag
   var span = document.createElement("span");
   //<span class="letter-holder" data-letter-val= letter>
   span.setAttribute("class", "letter-holder");
   span.setAttribute("data-letter-val", letter);
-  //<span> text reads "_ ". 
+  //<span> text reads "_ ".
   span.textContent = "_ ";
+  //declare div ID as variable to appendChild, or add <span> tag to #word
   var wordDiv = document.getElementById("word");
   wordDiv.appendChild(span);
 }
 
-function keydownAction(event) {
-  var keyPress = event.key;
-  //need code block here
-  document.querySelector(".letter");
+var letterHolders = document.getElementsByClassName("letter-holder");
+document.addEventListener("keyup", keyupAction);
+
+function keyupAction(event) {
+  determineMatch(event.key, letterHolders);
 }
 
-// for (i = 0; i < randomWord; i++);
-
-//loop through the word
-//create a span with class letter-holder
-//add an attribute "data-letter-val" and give it the value of the current letter in loop.
-//then attach the spans to your html
-
-//check whole array for each key event
+function determineMatch(key, letterHolders) {
+  for (var i = 0; i < letterHolders.length; i++) {
+    var letterVal = letterHolders[i].getAttribute("data-letter-val");
+    console.log(letterVal);
+    if (letterVal == key) {
+      var current = letterHolders[i];
+      current.textContent = key;
+    }
+  }
+}
+// check whole array for each key event
