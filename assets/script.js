@@ -1,32 +1,3 @@
-// const startBtnEl = document.querySelector("#start-button");
-
-// startBtnEl.addEventListener("click", startGame);
-// let timerCount;
-
-// function startGame() {
-//   timerCount = 10;
-
-//   startBtnEl.disabled = true;
-//   renderWordBlanks();
-//   countDown();
-// };
-
-// const wordArray = ["Kitty", "Doggo", "Lizard", "Parrot", "Fish"];
-// let chosenWord = "";
-// let chosenLetters = [];
-// let letterBlanks = [];
-// let wordBlank;
-
-// renderWordBlanks = () => {
-//   chosenWord = wordArray[Math.floor(Math.random() * wordArray.length)];
-//   chosenLetters = chosenWord.length;
-
-//   for (let i = 0; i < chosenLetters.length; i++) {
-//     letterBlanks.push("_");
-//   }
-//   wordBlank.textContent = letterBlanks.join(" ");
-// };
-
 var timeEl = document.querySelector(".time");
 var countDown = 10;
 var wordArray = ["kitty", "doggo", "parrot", "gecko"];
@@ -46,18 +17,19 @@ startButton.addEventListener("click", function () {
   }
 });
 
-function sendMessage() {
-  timeEl.textContent = "Game Over";
+function sendMessage(text) {
+  timeEl.textContent = text;
 }
+var timerInterval;
 
 function newRound() {
-  var timerInterval = setInterval(function () {
+  timerInterval = setInterval(function () {
     countDown--;
     timeEl.textContent = "Countdown: " + countDown;
     //if time runs out, or btn is clicked during round, timer clears & msg displays
     if (countDown === 0 || startRound === "off") {
       clearInterval(timerInterval);
-      sendMessage();
+      sendMessage("You lose.");
       //need to be able to start new round when countDown = 0.
     }
   }, 1000);
@@ -92,6 +64,8 @@ function keyupAction(event) {
   determineMatch(event.key, letterHolders);
 }
 
+var filledLength = 0;
+
 function determineMatch(key, letterHolders) {
   for (var i = 0; i < letterHolders.length; i++) {
     var letterVal = letterHolders[i].getAttribute("data-letter-val");
@@ -99,7 +73,15 @@ function determineMatch(key, letterHolders) {
     if (letterVal == key) {
       var current = letterHolders[i];
       current.textContent = key;
+      filledLength++;
+    }
+    if (filledLength === letterHolders.length) {
+      endGame();
+      sendMessage("You win!");
     }
   }
 }
-// check whole array for each key event
+
+function endGame() {
+  clearInterval(timerInterval);
+}
