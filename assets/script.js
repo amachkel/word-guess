@@ -7,6 +7,8 @@ var splitWord = randomWord.split("");
 var startButton = document.querySelector("#start-button");
 //sets game's default to off;
 var startRound = "off";
+var winCounter = 0;
+var lossCounter = 0;
 
 startButton.addEventListener("click", function () {
   if (startRound === "off") {
@@ -31,6 +33,7 @@ function newRound() {
       clearInterval(timerInterval);
       sendMessage("You lose.");
       //need to be able to start new round when countDown = 0.
+      lossCounter++;
     }
   }, 1000);
 
@@ -78,10 +81,42 @@ function determineMatch(key, letterHolders) {
     if (filledLength === letterHolders.length) {
       endGame();
       sendMessage("You win!");
+      winCounter++;
     }
   }
 }
 
 function endGame() {
   clearInterval(timerInterval);
+  startRound = "off";
 }
+
+setWins = () => {
+  win.textContent = winCounter;
+  localStorage.setItem("winCount", winCounter);
+};
+
+setLosses = () => {
+  loss.textContent = lossCounter;
+  localStorage.setItem("lossCount", lossCounter);
+};
+
+getWins = () => {
+  let storedWins = localStorage.getItem("winCount");
+  if (storedWins === null) {
+    winCounter = 0;
+  } else {
+    winCounter = storedWins;
+  }
+  win.textContent = winCounter;
+};
+
+getLosses = () => {
+  let storedLosses = localStorage.getItem("lossCount");
+  if (storedLosses === null) {
+    lossCounter = 0;
+  } else {
+    lossCounter = storedLosses;
+  }
+  loss.textContent = lossCounter;
+};
