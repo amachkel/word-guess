@@ -1,14 +1,15 @@
-var timeEl = document.querySelector(".time");
-var countDown = 10;
-var wordArray = ["kitty", "doggo", "parrot", "gecko"];
-var randomWord;
+const timeEl = document.querySelector(".time");
+let countDown = 10;
+const wordArray = ["cat", "dog", "parrot", "fish", "snake", "gecko"];
+let randomWord;
 // console.log(randomWord);
+let letterHolders;
 
-var startButton = document.querySelector("#start-button");
+const startButton = document.querySelector("#start-button");
 //sets game's default to off;
-var startRound = "off";
-var winCounter = 0;
-var lossCounter = 0;
+let startRound = "off";
+let winCounter = 0;
+let lossCounter = 0;
 
 startButton.addEventListener("click", function () {
   if (startRound === "off") {
@@ -19,12 +20,10 @@ startButton.addEventListener("click", function () {
   }
 });
 
-function sendMessage(text) {
-  timeEl.textContent = text;
-}
-var timerInterval;
+sendMessage = (text) => (timeEl.textContent = text);
+let timerInterval;
 
-function newRound() {
+newRound = () => {
   randomWord = getRandomWord();
   timerInterval = setInterval(function () {
     countDown--;
@@ -38,23 +37,24 @@ function newRound() {
       setLosses();
     }
   }, 1000);
-  var wordDiv = document.getElementById("word");
+  const wordDiv = document.getElementById("word");
   wordDiv.innerHTML = "";
-  var splitWord = randomWord.split("");
+  let splitWord = randomWord.split("");
   for (i = 0; i < splitWord.length; i++) {
     createSpan(splitWord[i]);
   }
-}
+  letterHolders = document.getElementsByClassName("letter-holder");
+};
 
-function getRandomWord() {
-  var random = Math.floor(Math.random() * wordArray.length);
+getRandomWord = () => {
+  let random = Math.floor(Math.random() * wordArray.length);
   return wordArray[random];
-}
+};
 //letter paramater = any letter
-function createSpan(letter) {
-  var wordDiv = document.getElementById("word");
+createSpan = (letter) => {
+  const wordDiv = document.getElementById("word");
   //creates <span> tag
-  var span = document.createElement("span");
+  const span = document.createElement("span");
   //<span class="letter-holder" data-letter-val= letter>
   span.setAttribute("class", "letter-holder");
   span.setAttribute("data-letter-val", letter);
@@ -63,50 +63,56 @@ function createSpan(letter) {
   //declare div ID as variable to appendChild, or add <span> tag to #word
 
   wordDiv.appendChild(span);
-}
+};
 
-var letterHolders = document.getElementsByClassName("letter-holder");
+console.log(letterHolders);
 document.addEventListener("keyup", keyupAction);
 
 function keyupAction(event) {
   determineMatch(event.key, letterHolders);
 }
 
-var filledLength = 0;
+function isTrue(element, index, array) {
+  return element == true;
+}
 
-function determineMatch(key, letterHolders) {
-  for (var i = 0; i < letterHolders.length; i++) {
-    var letterVal = letterHolders[i].getAttribute("data-letter-val");
-    console.log(letterVal);
-    if (letterVal == key) {
-      var current = letterHolders[i];
+var foundLetters = [];
+determineMatch = (key, letterHolders) => {
+  for (let i = 0; i < letterHolders.length; i++) {
+    let letterVal = letterHolders[i].getAttribute("data-letter-val");
+    if (letterVal == key 
+      && foundLetters.length != letterHolders.length) {
+      let current = letterHolders[i];
       current.textContent = key;
-      filledLength++;
-    }
-    if (filledLength === letterHolders.length) {
-      endGame();
-      sendMessage("You win!");
-      winCounter++;
-      setWins();
+      foundLetters.push(true);
+      console.log(foundLetters.length);
     }
   }
-}
+  let trueLen = foundLetters.length;
+  if (trueLen == letterHolders.length 
+    && startRound == "on") {
+    endGame();
+    sendMessage("You win!");
+    winCounter++;
+    setWins();
+  }
+};
 
-function endGame() {
+endGame = () => {
   clearInterval(timerInterval);
   startRound = "off";
-  filledLength = 0;
   countDown = 10;
-}
+  foundLetters = [];
+};
 
 setWins = () => {
-  var win = document.querySelector(".win");
+  const win = document.querySelector(".win");
   win.textContent = winCounter;
   localStorage.setItem("winCount", winCounter);
 };
 
 setLosses = () => {
-  var loss = document.querySelector(".loss");
+  const loss = document.querySelector(".loss");
   loss.textContent = lossCounter;
   localStorage.setItem("lossCount", lossCounter);
 };
